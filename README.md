@@ -1,4 +1,7 @@
 # go-codebase
+
+[![GoDoc](https://godoc.org/github.com/joaodias/go-codebase?status.svg)](http://godoc.org/github.com/joaodias/go-codebase)
+
 A codebase with some generic go utilities.
 
 First,
