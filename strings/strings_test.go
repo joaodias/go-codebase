@@ -1,11 +1,11 @@
-package utils_test
+package strings_test
 
 import (
 	"errors"
 	"reflect"
 	"testing"
 
-	utils "github.com/joaodias/hugito-app/utils"
+	strings "github.com/joaodias/go-codebase/strings"
 )
 
 // Mock a random reader that returns an error
@@ -35,7 +35,7 @@ func TestContainsSubArray(t *testing.T) {
 		{"multiple string match", args{[]string{"one", "two", "three", "four", "five"}, []string{"six", "seven"}}, false},
 	}
 	for _, tt := range tests {
-		if got := utils.ContainsSubArray(tt.args.sub, tt.args.reference); got != tt.want {
+		if got := strings.ContainsSubArray(tt.args.sub, tt.args.reference); got != tt.want {
 			t.Errorf("%q. ContainsSubArray() = %v, want %v", tt.name, got, tt.want)
 		}
 	}
@@ -55,7 +55,7 @@ func TestAreStringsEqual(t *testing.T) {
 		{"different strings", args{"abc", "xyz"}, false},
 	}
 	for _, tt := range tests {
-		if got := utils.AreStringsEqual(tt.args.x, tt.args.y); got != tt.want {
+		if got := strings.AreStringsEqual(tt.args.x, tt.args.y); got != tt.want {
 			t.Errorf("%q. AreStringsEqual() = %v, want %v", tt.name, got, tt.want)
 		}
 	}
@@ -64,7 +64,7 @@ func TestAreStringsEqual(t *testing.T) {
 func TestGenerateRandomBytes(t *testing.T) {
 	type args struct {
 		n      int
-		reader utils.RandomReader
+		reader strings.RandomReader
 	}
 	tests := []struct {
 		name    string
@@ -76,7 +76,7 @@ func TestGenerateRandomBytes(t *testing.T) {
 		{"read ok", args{16, randomReaderSuccess}, make([]byte, 16), false},
 	}
 	for _, tt := range tests {
-		got, err := utils.GenerateRandomBytes(tt.args.n, tt.args.reader)
+		got, err := strings.GenerateRandomBytes(tt.args.n, tt.args.reader)
 		if (err != nil) != tt.wantErr {
 			t.Errorf("%q. GenerateRandomBytes() error = %v, wantErr %v", tt.name, err, tt.wantErr)
 			continue
@@ -90,7 +90,7 @@ func TestGenerateRandomBytes(t *testing.T) {
 func TestGenerateRandomString(t *testing.T) {
 	type args struct {
 		s            int
-		randomReader utils.RandomReader
+		randomReader strings.RandomReader
 	}
 	tests := []struct {
 		name    string
@@ -102,7 +102,7 @@ func TestGenerateRandomString(t *testing.T) {
 		{"read success", args{16, randomReaderSuccess}, "AAAAAAAAAAAAAAAAAAAAAA==", false},
 	}
 	for _, tt := range tests {
-		got, err := utils.GenerateRandomString(tt.args.s, tt.args.randomReader)
+		got, err := strings.GenerateRandomString(tt.args.s, tt.args.randomReader)
 		if (err != nil) != tt.wantErr {
 			t.Errorf("%q. GenerateRandomString() error = %v, wantErr %v", tt.name, err, tt.wantErr)
 			continue
