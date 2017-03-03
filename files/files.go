@@ -7,6 +7,7 @@ import (
 	"net/http"
 	"os"
 	"path/filepath"
+	"time"
 )
 
 // RealWebClient is a real web client.
@@ -20,6 +21,23 @@ type WebClient interface {
 // Client embedds the WebClient
 type Client struct {
 	HTTP WebClient
+}
+
+// FileInfo is a struct created from os.FileInfo interface for serialization.
+type FileInfo struct {
+	Name    string      `json:"name"`
+	Size    int64       `json:"size"`
+	Mode    os.FileMode `json:"mode"`
+	ModTime time.Time   `json:"modTime"`
+	IsDir   bool        `json:"isDir"`
+}
+
+// Node represents a node in a directory tree.
+type Node struct {
+	FullPath string    `json:"path"`
+	Info     *FileInfo `json:"info"`
+	Children []*Node   `json:"children"`
+	Parent   *Node     `json:"-"`
 }
 
 // HTTPDownload downloads stuff from the internet.
@@ -89,7 +107,7 @@ func Unzip(archive, target string) (string, error) {
 }
 
 // DownloadToFile downloads an http source to a file
-func DownloadToFile(client Client, url string, folder string, dst string) (string, error) {
+func DownloadToFile(client Client, url string, folder string, dst string, deleteAfterUnzip bool) (string, error) {
 	d, err := HTTPDownload(client, url)
 	if err != nil {
 		return "", err
@@ -101,6 +119,12 @@ func DownloadToFile(client Client, url string, folder string, dst string) (strin
 	sourcePath, err := Unzip(dst, folder)
 	if err != nil {
 		return "", err
+	}
+	if deleteAfterUnzip {
+		err = os.Remove(dst)
+		if err != nil {
+			return "", err
+		}
 	}
 	return sourcePath, nil
 }
