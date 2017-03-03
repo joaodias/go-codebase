@@ -33,3 +33,15 @@ func TestHTTPDownload(t *testing.T) {
 		}
 	}
 }
+
+func TestIsDirectoryFail(t *testing.T) {
+	isDirectory, _ := files.IsDirectory("files.go")
+	assert.False(t, isDirectory)
+}
+
+func TestIsDirectorySuccess(t *testing.T) {
+	isDirectory, _ := files.IsDirectory("mocks")
+	assert.True(t, isDirectory)
+}
+
+}

@@ -128,3 +128,9 @@ func DownloadToFile(client Client, url string, folder string, dst string, delete
 	}
 	return sourcePath, nil
 }
+
+// IsDirectory checks if a path is a directory.
+func IsDirectory(path string) (bool, error) {
+	fileInfo, err := os.Stat(path)
+	return fileInfo.IsDir(), err
+}
