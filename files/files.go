@@ -134,3 +134,14 @@ func IsDirectory(path string) (bool, error) {
 	fileInfo, err := os.Stat(path)
 	return fileInfo.IsDir(), err
 }
+
+// GetPathRoot gets the root element of a given path.
+func GetPathRoot(path string) string {
+	var previousPath string
+	currentPath := path
+	for currentPath != "." {
+		previousPath = currentPath
+		currentPath = filepath.Dir(currentPath)
+	}
+	return previousPath
+}

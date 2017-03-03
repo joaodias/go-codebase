@@ -6,6 +6,7 @@ import (
 
 	"github.com/joaodias/go-codebase/files"
 	filesmocks "github.com/joaodias/go-codebase/files/mocks"
+	"github.com/stretchr/testify/assert"
 )
 
 func TestHTTPDownload(t *testing.T) {
@@ -44,4 +45,12 @@ func TestIsDirectorySuccess(t *testing.T) {
 	assert.True(t, isDirectory)
 }
 
+func TestGetPathRootSinglePath(t *testing.T) {
+	root := files.GetPathRoot("root")
+	assert.Equal(t, "root", root)
+}
+
+func TestGetPathRoot(t *testing.T) {
+	root := files.GetPathRoot("root/sub/subsub/subsubsub")
+	assert.Equal(t, "root", root)
 }
